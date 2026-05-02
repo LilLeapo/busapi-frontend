@@ -271,6 +271,89 @@ button {
   font-family: inherit;
 }
 
+/* ============================================================
+   Marquee — 无限横向滚动
+   ============================================================ */
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll linear infinite;
+}
+.marquee__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-right: 48px;
+}
+.marquee--pause-hover:hover .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ============================================================
+   横滚劫持区段的进度提示 / 标签
+   ============================================================ */
+.hijack-progress {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+.hijack-progress > span {
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--line-2);
+  transition: background 280ms ease, width 280ms ease;
+}
+.hijack-progress > span.is-active {
+  background: var(--accent);
+  width: 56px;
+}
+
+/* ============================================================
+   尊重用户的"减少动画"设置
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+
 /* range input */
 input[type='range'] {
   -webkit-appearance: none;
